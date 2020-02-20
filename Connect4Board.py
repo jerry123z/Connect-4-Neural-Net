@@ -8,23 +8,20 @@ class GameBoard:
         self.openRows = [0, 0, 0, 0, 0, 0, 0]
 
     def play(self, player, column):
-        if self.openRows[column] < 5:
+        if self.openRows[column] < 6:
             self.board[column, self.openRows[column]] = player
             self.openRows[column] += 1
             return True
         return False
 
     def check_win(self):
-        row = [[1, 1, 1, 1]]
-        col = [[1], [1], [1], [1]]
-        diagonal_left = [[1, 0, 0, 0],
-                     [0, 1, 0, 0],
-                     [0, 0, 1, 0],
-                     [0, 0, 0, 1]]
+        row = np.ones((1, 4))
+        col = np.ones((4, 1))
+        diagonal_left = np.eye(4)
         diagonal_right = [[0, 0, 0, 1],
-                      [0, 0, 1, 0],
-                      [0, 1, 0, 0],
-                      [1, 0, 0, 0]]
+                          [0, 0, 1, 0],
+                          [0, 1, 0, 0],
+                          [1, 0, 0, 0]]
         row_check = scipy.signal.convolve2d(self.board, row, 'valid')
         col_check = scipy.signal.convolve2d(self.board, col, 'valid')
         diagonal_left_check = scipy.signal.convolve2d(self.board, diagonal_left, 'valid')

@@ -30,7 +30,6 @@ class BoardTests(unittest.TestCase):
         board.play(player=-1, column=0)
         self.assertEqual(board.check_win(), -1)
 
-
     def test_check_continue(self):
         board = Connect4Board.GameBoard()
         board.play(player=-1, column=0)
@@ -52,6 +51,7 @@ class BoardTests(unittest.TestCase):
         board.play(player=-1, column=3)
         board.play(player=1, column=3)
         self.assertEqual(1, board.check_win())
+
 
 if __name__ == '__main__':
     unittest.main()
