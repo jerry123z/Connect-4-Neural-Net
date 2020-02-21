@@ -10,7 +10,7 @@ BLUE = (0, 0, 255)
 
 def connect4():
     # setup
-    board = Connect4Board.GameBoard()
+    board = Connect4Board.Connect4GameBoard()
     winner = 0
     screen = pygame.display.set_mode((700, 600))
     curr_player = 1
@@ -50,12 +50,13 @@ def connect4():
                     col = 6
 
                 if col is not None:
-                    valid_move = board.play(curr_player, col)
+                    valid_move = board.is_action_legal(col)
                     if valid_move:
+                        board = board.play(col)
                         if curr_player == 1:
-                            pygame.draw.ellipse(screen, RED, [15 + col * 100, 515 - (board.openRows[col]-1) * 100, 70, 70], 0)
+                            pygame.draw.ellipse(screen, RED, [15 + col * 100, 515 - (board.cols[col]-1) * 100, 70, 70], 0)
                         else:
-                            pygame.draw.ellipse(screen, BLUE, [15 + col * 100, 515 - (board.openRows[col]-1) * 100, 70, 70], 0)
+                            pygame.draw.ellipse(screen, BLUE, [15 + col * 100, 515 - (board.cols[col]-1) * 100, 70, 70], 0)
 
                         curr_player *= -1
 

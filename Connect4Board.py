@@ -1,18 +1,41 @@
 import numpy as np
 import scipy.signal
+import AbstractGameState
+
+ACTIONS = [0, 1, 2, 3, 4, 5, 6]
 
 
-class GameBoard:
-    def __init__(self):
-        self.board = np.zeros((7, 6))
-        self.openRows = [0, 0, 0, 0, 0, 0, 0]
+class Connect4GameBoard:
+    def __init__(self, board=np.zeros((7, 6)), cols=(0, 0, 0, 0, 0, 0, 0), curr_player=1):
+        self.board = board
+        self.cols = list(cols)
+        self.game_over = False
+        self.winner = 0
+        self.curr_player = curr_player
 
-    def play(self, player, column):
-        if self.openRows[column] < 6:
-            self.board[column, self.openRows[column]] = player
-            self.openRows[column] += 1
+    def is_game_over(self):
+        return self.game_over
+
+    def game_result(self):
+        return self.winner
+
+    def is_action_legal(self, column):
+        if self.cols[column] < 6:
             return True
         return False
+
+    def get_legal_actions(self):
+        return list(filter(self.is_action_legal, range(7)))
+
+    def play(self, column):
+        if self.cols[column] < 6:
+            new_board = np.copy(self.board)
+            new_cols = np.copy(self.cols)
+            new_board[column, self.cols[column]] = self.curr_player
+            new_cols[column] += 1
+            new_curr_player = self.curr_player * (-1)
+            return Connect4GameBoard(new_board, new_cols, new_curr_player)
+        raise Exception("Action is Not Valid")
 
     def check_win(self):
         row = np.ones((1, 4))
