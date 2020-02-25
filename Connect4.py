@@ -61,7 +61,8 @@ def connect4():
                         curr_player *= -1
 
         if board.check_win() != 0:
-            keep_going = False
+            # keep_going = False
+            keep_going = True
 
         pygame.display.flip()
         clock.tick(30)
